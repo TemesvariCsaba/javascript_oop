@@ -136,12 +136,12 @@ button.addEventListener("click", OnButtonClick.bind(rowspan))
 function OnButtonClick(){
     /** @type {RowspanRowType} */
     const obj = 
-    {    author: "Appolliniare",
-        title1: "A megsebzett galamb és a szökőkút", 
-        concepts1: "képvers", 
-        title2: "Búcsú",
-        concepts2: "avantgárd" 
-    } 
+    {
+        author: "Appolliniare", 
+        title: "A megsebzett galamb és a szökőkút",
+        concepts: "Képvers",  
+        concepts2: "Emlékezés", 
+    }
     this.method(function(body){
         const tr = document.createElement("tr")
         body.appendChild(tr)
@@ -168,3 +168,45 @@ function OnButtonClick(){
         
     })
 }
+
+/**
+ * @this {ColSpanTable} ez az a peldany amivel meghivjuk a colspanra a metodust
+ */
+function OnButtonClickCol(){
+    /** @type {ColspanRowType} */
+    const obj = 
+    {   author: "Appolliniare",
+        title: "A megsebzett galamb és a szökőkút", 
+        concepts: "képvers", 
+        title: "Búcsú",
+        concepts2: "avantgárd" 
+    } 
+    this.method(function(body){
+        const tr = document.createElement("tr")
+        body.appendChild(tr)
+        const td = document.createElement("td")
+        td.innerText = obj.author
+        tr.appendChild(td)
+        const td2 = document.createElement("td")
+        td2.innerText = obj.title
+        tr.appendChild(td2)
+        const td3 = document.createElement("td")
+        td3.innerText = obj.concepts
+        tr.appendChild(td3)
+        if(obj.concepts2){
+            const td5 = document.createElement("td")
+            td5.innerText = obj.concepts2
+            tr.appendChild(td5)
+        }
+        else{
+            td3.colSpan = 2
+        }
+        
+    })
+}
+
+const buttonCol = document.createElement("button")
+buttonCol.innerText = "colSpan hozzaadasa"
+document.body.appendChild(buttonCol)
+buttonCol.addEventListener("click", OnButtonClickCol.bind(colspan))
+
