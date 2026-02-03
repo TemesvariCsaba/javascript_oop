@@ -1,19 +1,16 @@
-import { muvelet, muveletLetrehoz } from "./functions.js"
+import { muveletLetrehoz } from "./functions.js"
+import { Button } from "./gomb.js"
 
 const div = document.createElement("div")
 document.body.appendChild(div)
 const inp1 = document.createElement("input")
 const inp2 = document.createElement("input")
-const gombSzab = document.createElement("button")
-gombSzab.innerText = "Merge!!!!"
+const gombSzabPlusz = new Button(inp1, inp2, '+', div, "osszeadas")
+const gombSzabMinusz = new Button(inp1, inp2, '-', div, "kivonas")
+const gombSzabSzoroz = new Button(inp1, inp2, '*', div, "szorzas")
 
-gombSzab.addEventListener("click", function(){
-    const inp1Num = Number(inp1.value)
-    const inp2Num = Number(inp2.value)
-    const {eredmeny} = muvelet(inp1Num, inp2Num ,muveletLetrehoz("+"))
-    div.innerText = eredmeny
-})
-div.appendChild(gombSzab)
+
+
 div.appendChild(inp1)
 div.appendChild(inp2)
  
