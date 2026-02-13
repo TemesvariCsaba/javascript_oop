@@ -31,7 +31,7 @@ class Table{
         table.appendChild(tbody)
         const trHead = document.createElement("tr")
         thead.appendChild(trHead)
-        for(const h of headerArr){
+        for(const h in headerArr){
             const th = document.createElement("th")
             th.innerText = h.name
             trHead.appendChild(th)
@@ -44,7 +44,7 @@ class Table{
      */
     setAppendRow(callback){
         this.#manager.callback = (element) =>{
-            callback(this.tbody, element)
+            callback(this.#tbody, element)
         }
     }
 }
