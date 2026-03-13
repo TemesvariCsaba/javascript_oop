@@ -23,7 +23,7 @@ class ViewElement{
     /**
      * @param {ActivateCallback} value 
      */
-    set ActivateCallback(value){
+    set activateCallback(value){
         this.#activateCallback = value
     }
     /**

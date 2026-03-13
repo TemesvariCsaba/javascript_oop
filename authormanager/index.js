@@ -28,22 +28,16 @@ const formFields = [{
 const headerArray = ['Szerző', 'Mű', 'Fogalom']
 
 const manager = new AuthorManager()
-manager.addElement({
-    author: "aaaa",
-    concept: "bbb",
-    work: "ccc"
-})
 
 const navBar = new Navigationbar();
 navBar.appendTo(document.body)
 
-const tableView = new TableView("table");
+const tableView = new TableView("table", headerArray, manager);
 tableView.appendTo(document.body)
 navBar.addviewElement("Táblázat", tableView)
 
-const formView = new FormView("tableform")
+const formView = new FormView("tableform", formFields, manager)
 formView.appendTo(document.body)
 navBar.addviewElement("Form", formView)
 
 navBar.activate("table")
-manager.getAllElement()
