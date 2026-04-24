@@ -1,9 +1,9 @@
 import { createRadioButton } from "./gomszab.min.js";
-import { ViewElement } from "./viewElement.js";
+import { ViewElement } from "./ViewElement.js";
 
-class Navigationbar extends ViewElement{
+class Navigationbar extends ViewElement{ //navigaitonbar osztaly definicioja
     /** @type {ViewElement[]} */
-    #viewElementList
+    #viewElementList // privat tulajdonsag ami tartalmazza a megjelenitendo viewelement leszarmazottakat
 
     constructor(){
         super("navbar")

@@ -4,24 +4,25 @@
  */
 import { hide, show } from "./gomszab.min.js"
 
-class ViewElement{
-    /** @type {HTMLDivElement} */
-    #div
+class ViewElement{ //ososztaly a megjelenitendo view osztalyoknak
+    /** @type {HTMLDivElement} */ 
+    #div //peldanyositaskor letrehozunk egy divet az elemnek azt taroljuk el benne
     /**@type {string} */
-    #id
+    #id //érkvat tulajdonsag az osztaly peldanyanak
     /** @type {ActivateCallback} */
-    #activateCallback
+    #activateCallback // akkor fut le amikor aktivva valik az adott elem (opcionalis) lasd activate fuggveny
 
-    get div(){
+    get div(){ //getter a divnek visszater a privat div tulajdonsaggal
         return this.#div
     }
 
-    get id(){
+    get id(){ //getter az azonsositonak (navigaciokor hasznalatos)
         return this.#id
     }
 
     /**
      * @param {ActivateCallback} value 
+     * setter az activatecallbacknek beallitja a bemeneti parametert
      */
     set activateCallback(value){
         this.#activateCallback = value
@@ -29,11 +30,12 @@ class ViewElement{
     /**
      * 
      * @param {string} id 
+     * konstrutkor bemeneti azonositoval
      */
     constructor(id){
-        this.#id = id
-        this.#div = document.createElement("div")
-        this.#div.id = id;
+        this.#id = id //azonosito beallitasa
+        this.#div = document.createElement("div") //div letrehozasa
+        this.#div.id = id; //div azonositojanak beallitasa
     }
 
     /**
@@ -41,23 +43,23 @@ class ViewElement{
      * @param {HTMLElement} parent 
      * @returns {void}
      */
-    appendTo(parent){
-        parent.appendChild(this.#div)
+    appendTo(parent){ //definialunk egy fuggvenyt a peldanynak a bemeneti parameter egy hmtl elem
+        parent.appendChild(this.#div) //a html elemhez hozzacsatoljuk a div tulajdonsagot (lasd konstruktor)
     }
     /**
      * 
      * @param {string} id 
      * @returns {void}
      */
-    activate(id){   
-        if(this.#id === id){
-            show(this.#div)
-            if(this.#activateCallback){
-                this.#activateCallback()
+    activate(id){   // fuggvenyt definialunk a peldanyoknak
+        if(this.#id === id){ //osszehasonlitjuk a bemeneti id parametert az id tulajdonsaggal
+            show(this.#div) //divtol leveszi a hidden osztalyt
+            if(this.#activateCallback){ //ha van activatecallback akkor 
+                this.#activateCallback() //meghivjuk az activatecallbacket
             }
         }else{
-            hide(this.#div)
+            hide(this.#div) //egyebkent hozzafuzzuk a divhez a hide osztaly
         }
     }
 }
-export {ViewElement}
+export {ViewElement} //exportaljuk a viewelementet
