@@ -10,7 +10,7 @@ import { AuthorManager } from "./manager.js";
 import { Navigationbar } from "./navigationBar.js"
 import { TableView } from "./table.js";
 
-const formFields = [{
+const formFields = [{ //letrehozunk egy formfieldlistat ami alapjan peldanyositja a formcontroller a formfield peldanyokat
     id: 'author',
     label: 'Név',
     name: 'author'
@@ -26,23 +26,24 @@ const formFields = [{
     name: 'concept'
 }]
 
-const headerArray = ['Szerző', 'Mű', 'Fogalom']
+const headerArray = ['Szerző', 'Mű', 'Fogalom'] //letrehozunk egy headerlistat
 
-const manager = new AuthorManager()
+const manager = new AuthorManager() //peldanyositjuk a managert
 
-const navBar = new Navigationbar();
-navBar.appendTo(document.body)
+const navBar = new Navigationbar(); //a navbart
+navBar.appendTo(document.body) //hozzafuzzuk a bodyhoz
 
-const tableView = new TableView("table", headerArray, manager);
-tableView.appendTo(document.body)
-navBar.addviewElement("Táblázat", tableView)
+const tableView = new TableView("table", headerArray, manager); //peldanyositjuk a tablet
+tableView.appendTo(document.body) //hozzafuzzuk a tablet a bodyhoz
+navBar.addviewElement("Táblázat", tableView) //hozzaadjuk a tablet a navbarhoz
 
-const formView = new FormView("tableform", formFields, manager)
-formView.appendTo(document.body)
-navBar.addviewElement("Form", formView)
 
-const importExport = new ImportView("importexport", manager)
-importExport.appendTo(document.body)
-navBar.addviewElement("Import/Export", importExport)
+const formView = new FormView("tableform", formFields, manager) //peldanyositjuk a formviviwet
+formView.appendTo(document.body) // hozzafuzzuk a bodyhoz
+navBar.addviewElement("Form", formView) //hozzaadjuk a navbarhoz
 
-navBar.activate("table")
+const importExport = new ImportView("importexport", manager) //peldanyositjuk az importexportot
+importExport.appendTo(document.body) //hozzafuzzuk a bodyhoz
+navBar.addviewElement("Import/Export", importExport) //hozzaadjuk a navbarhoz
+
+navBar.activate("table") //meghivjuk a navbar activate metodusat a table azonositojaval

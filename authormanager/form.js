@@ -1,15 +1,16 @@
 import { createInputAndErrorDiv } from "./gomszab.min.js";
 import { AuthorManager } from "./manager.js";
-import { ViewElement } from "./viewElement.js";
+import { ViewElement } from "./ViewElement.js";
 
-class FormView extends ViewElement{
+class FormView extends ViewElement{ // leszarmazunk a viewElementbol es definialjuk a FormController osztalyt
 
     /** @type {FormField[]} */
-    #formInputList
+    #formInputList //letrehozzuk a privat formInputList tulajdonsagot
     /** @type {AuthorManager} */
-    #manager
+    #manager //letrehozzuk a privat manager tulajdonsagot
     /** @type {HTMLFormElement} */
-    #form
+    #form 
+
 
     /**
      * 
@@ -18,69 +19,69 @@ class FormView extends ViewElement{
      * @param {AuthorManager} manager 
      */
     constructor(id, formFieldList, manager){
-        super(id)
-        this.#manager = manager
-        this.#formInputList = []
-        const form = document.createElement("form")
-        for(const field of formFieldList){
-            const formField = new FormField(field.id, field.label, field.name, form)
-            this.#formInputList.push(formField)
+        super(id) //meghivjuk a szuloosztaly konstruktorat
+        this.#manager = manager //erteket adunk a manager privat tulajdonsagnak
+        this.#formInputList = [] //inicializaljuk a forminputlist tulajdonsagot
+        const form = document.createElement("form") //letrehozunk egy formot
+        for(const field of formFieldList){ //vegigiteralunk a formfieldlistent
+            const formField = new FormField(field.id, field.label, field.name, form) //peldanyostijuk a forminputokat
+            this.#formInputList.push(formField) //hozzaadjuk a forminputlistahoz
         }
-        const button = document.createElement("button")
-        button.innerText = "Küldés"
-        form.appendChild(button)
-        const resultDiv = document.createElement("div")
+        const button = document.createElement("button") //letrehozunk egy gombot
+        button.innerText = "Küldés" //form szovegenek bellitasa
+        form.appendChild(button) //hozzafuzzuk a formhoz
+        const resultDiv = document.createElement("div") //letrehozunk egy resultdivet a megjelenitendo uzenetnek
         resultDiv.innerText = "eredmeny"
-        this.div.appendChild(resultDiv)
+        this.div.appendChild(resultDiv) //hozzacsatoljuk a divhez
 
-        form.addEventListener("submit", (e)=>{
-            e.preventDefault()
-            const elem = this.#createElement()
-            this.#manager.addElement(elem)
+        form.addEventListener("submit", (e)=>{ //feliratkozunk a form submit esemenyere
+            e.preventDefault() //megakadalyozzuk az urlap alapertelmezett mukodeset
+            const elem = this.#createElement() //meghivjuk a createElement metodust
+            this.#manager.addElement(elem) //meghivjuk a manager addelement fuggvenyet (lasd: authormanager.addelement)
 
             
         })
 
         this.div.appendChild(form)
-        this.#manager.addElementResultCallback = (result) =>{
-            resultDiv.innerText = result
-            setTimeout(()=>{
-                resultDiv.innerText = ""
-            }, 1500)
+        this.#manager.addElementResultCallback = (result) =>{ //definialjuk az addelementresultcallbacket (az authormanager.addElement hivja a callbackewt)
+            resultDiv.innerText = result //beallitjuk a resultdiv ertekenek a kapott stringet
+            setTimeout(()=>{ //meghivjuk a setTimeoutot
+                resultDiv.innerText = "" //toroljuk a resultdiv tartalmat
+            }, 1500) //masfel masodperc mulva
         }
         
     }
     /**
      * @returns {import("./index.js").AuthorType}
      */
-    #createElement(){
+    #createElement(){ // createelement metodus definialasa
         /**
          * @type {import("./index.js").AuthorType}
          */
-        let result = {}
-        for(const field of this.#formInputList){
-            if(field.validate()){
-                result[field.name] = field.value
+        let result = {} //letrehozunk egy authortype tipusu objektumot
+        for(const field of this.#formInputList){ //vegigiteralunk a forminputlist elemein
+            if(field.validate()){ //meghivjuk minden forminputra a validate fuggvenyt
+                result[field.name] = field.value // a result objektum forminputfield name ertekevel megegyezo nevu tulajdonsaganak megadjuk a forminput beviteli mezo inoutjanak az erteket
             }
         }
-        return result
+        return result //visszaterunk az objektummal
     }
 }
 
-class FormField {
+class FormField { // definialunk egy formField osztalyt
     /** @type {HTMLInputElement} */
-    #inputElement
+    #inputElement //definialunk egy privat inputElement tulajdonsagot
     /** @type {HTMLDivElement} */
-    #errorDiv
+    #errorDiv //definialunk egy privat errorDiv tulajdonsagot
     /** @type {string} */
-    #name
+    #name //definialunk egy privat name tulajdonsagot
 
-    get name() {
-        return this.#name
+    get name() { //definialunk gettert a namenek
+        return this.#name // visszaterunk a name tulajdonsag ertekevel 
     }
 
-    get value(){
-        return this.#inputElement ? this.#inputElement.value : undefined
+    get value(){ //definialunk gettert a valuenak
+        return this.#inputElement ? this.#inputElement.value : undefined //amennyiben az inputElementnek van beirt erteke akkor visszater vele egyebkent undefineddel ter vissza
     }
 
     /**
@@ -90,24 +91,24 @@ class FormField {
      * @param {string} name 
      * @param {HTMLFormElement} parent 
      */
-    constructor(id, label, name, parent){
-        const {input, errorDiv} = createInputAndErrorDiv({id, label, name, parent})
-        this.#name = name
-        this.#inputElement = input
-        this.#errorDiv = errorDiv
+    constructor(id, label, name, parent){ //definialunk egy konstruktort 
+        const {input, errorDiv} = createInputAndErrorDiv({id, label, name, parent}) //letrehozunk egy divet ami letrehoz egy idt labelt namet
+        this.#name = name //beallitjuk a name tulajdonsag erteket 
+        this.#inputElement = input //visszateresi ertek input tulajdonsag erteket allitjuk be
+        this.#errorDiv = errorDiv //visszateresi ertek errorDiv tulajdonsag erteket allitjuk be
     }
     /**
      * @returns {boolean}
      */
-    validate(){
-        let result = true
-        if(!this.value){
-            this.#errorDiv.innerText = "Mező kitöltése kötelező"
-            result = false
-        }else{
-            this.#errorDiv.innerText = ""
+    validate(){ //definialjuk a validate fuggvenyt 
+        let result = true //letrehozunk egy result valtozot igaz ertekkel
+        if(!this.value){ //ha a value getter visszateresi erteke undefined
+            this.#errorDiv.innerText = "Mező kitöltése kötelező" //beallitjuk az errordiv  erteket hibauzenetre
+            result = false //a result erteket falsera allituk
+        }else{ //egyebkent
+            this.#errorDiv.innerText = "" //toroljuk az errordiv tartalmat
         }
-        return result
+        return result //visszaterunk a result valtozo ertekevel
     }
 }
-export {FormView}
+export {FormView} //exportaljuk a formViewet
